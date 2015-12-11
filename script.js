@@ -29,7 +29,7 @@ function toM() {
 
   m.setValue(converted);
 }
-  
+
 j.on('focus', function(e) {
   j.getSession().on('change', toM);
 });
@@ -86,8 +86,11 @@ function toJ() {
 
     return code;
   });
+// '{{*$1*}}'
+  converted = converted.replace(/`([^`]+)`/g, function(match, code) {
 
-  converted = converted.replace(/`([^`]+)`/g, '{{$1}}');
+    return '{{*' + code.replace(/(\{|\}|\[)/g, '\\$1') + '*}}';
+  });
 
   converted = converted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1|$2]');
   converted = converted.replace(/<([^>]+)>/g, '[$1]');
